@@ -11,7 +11,7 @@ services:
     volumes:
       - ./ssl/cloud:/etc/apache2/ssl:z
       - ${VOLUME_DATA}/cloud-local:/var/www/cloud/var/local
-      - supla-server-socket:/supla-server:z
+      - ${VOLUME_DATA}/server-socket:/supla-server:z
     links:
       - supla-db
     depends_on:
@@ -41,7 +41,7 @@ services:
       - .env
     volumes:
       - ./ssl/server:/etc/supla-server/ssl:z
-      - supla-server-socket:/var/run/supla:z
+      - ${VOLUME_DATA}/server-socket:/var/run/supla:z
     ports:
       - "2016:2016"
       - "2015:2015"
@@ -49,6 +49,3 @@ services:
       - supla-db
     depends_on:
       - supla-cloud
-
-volumes:
-  supla-server-socket: {}
