@@ -2,7 +2,9 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/supla/supla-cloud.svg)](https://hub.docker.com/r/supla/supla-cloud/) [![Docker Build Status](https://img.shields.io/docker/build/supla/supla-cloud.svg)](https://hub.docker.com/r/supla/supla-cloud/)
  
-[![Current Supla-Cloud version](https://img.shields.io/badge/SUPLA--Cloud-v2.3.1-blue.svg)](https://github.com/SUPLA/supla-cloud/releases/latest)  [![Current SUPLA-Server version](https://img.shields.io/badge/SUPLA--Server-v2.3.1-blue.svg)](https://github.com/SUPLA/supla-core/releases/latest)
+| SUPLA-Cloud        | SUPLA-Core           |
+| ------------- |:-------------|
+| [![Current Supla-Cloud version](https://img.shields.io/github/release/SUPLA/supla-cloud.svg)](https://github.com/SUPLA/supla-cloud/releases/latest) | [![Current SUPLA-Server version](https://img.shields.io/github/release/SUPLA/supla-core.svg)](https://github.com/SUPLA/supla-core/releases/latest) |
 
 Your home connected. With Docker. www.supla.org
 
@@ -24,7 +26,7 @@ Your home connected. With Docker. www.supla.org
    ```
    * if you have problems getting docker-compose into you Raspberry Pi, try an alternative method:
      ```
-     apt-get -y install python-pip && pip install docker-compose
+     apt-get -y install python-pip libffi-dev libssl-dev git && pip install docker-compose
      ```
 1. Clone this repository.
    ```
@@ -55,6 +57,23 @@ cd supla-docker
 git pull
 ./supla.sh upgrade
 ```
+
+## Configure your SSL certificate
+
+After the first launch, a self-signed certificate will be generated for you to make sure everything works. However,
+web browser will complain when using such certificate so it's good idea to further configure your instance.
+If you have your own SSL certificate, put it in `server.key` and `server.crt` files inside `ssl/cloud` directory
+and restart the application.
+
+If your SSL certificate consists of a chainfile (i.e. there is another certificate file besides the `.crt` and `.key` files):
+
+1. Make a copy of original certificate files.
+1. Prepare one-file certificate by concatenating the certificate file and the chain (in this order!)
+    ```
+    cat server_original.crt rootca_chain.crt > server.crt
+    ```
+1. Store the resulting `server.crt` in `ssl/cloud`.
+1. Restart the application.
 
 ## Launching in proxy mode
 
